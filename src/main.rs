@@ -1,3 +1,4 @@
+mod interface;
 mod namedrawing;
 
 // Simple name drawing program
@@ -6,12 +7,13 @@ mod namedrawing;
 // them in the same vector together.
 
 fn main() {
-    let mut drawing = namedrawing::NameDrawing::new(vec![
-        vec![String::from("Hannah")],
-        vec![String::from("James"), String::from("Katie I")],
-        vec![String::from("Hollie"), String::from("Isaac")],
-        vec![String::from("Luke"), String::from("Katie E")],
-        vec![String::from("Josh"), String::from("Marquelle")],
-    ]);
-    drawing.draw_names();
+    interface::run_interactive();
+    // let mut drawing = namedrawing::NameDrawing::from_vec(vec![
+    //     vec![String::from("Hannah")],
+    //     vec![String::from("James"), String::from("Katie I")],
+    //     vec![String::from("Hollie"), String::from("Isaac")],
+    //     vec![String::from("Luke"), String::from("Katie E")],
+    //     vec![String::from("Josh"), String::from("Marquelle")],
+    // ]);
+    // drawing.draw_names();
 }

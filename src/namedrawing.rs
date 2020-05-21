@@ -20,6 +20,13 @@ mod test_namedrawing {
         mmap.insert(2, String::from("else"));
         assert!(!all_keys_idx(1, &mmap));
     }
+    #[test]
+    fn adding_new_item() {
+        let mut nmd = NameDrawing::new();
+        nmd.add_names(vec![String::from("What"), String::from("that")]);
+        nmd.add_names(vec![String::from("them")]);
+        assert_eq!(nmd.name_key.len(), 2);
+    }
 }
 
 pub struct NameDrawing {
@@ -28,7 +35,7 @@ pub struct NameDrawing {
 }
 
 impl NameDrawing {
-    pub fn new(names: Vec<Vec<String>>) -> NameDrawing {
+    pub fn from_vec(names: Vec<Vec<String>>) -> NameDrawing {
         // Construct hashmap
         let mut name_key = HashMap::new();
         for (i, v) in names.iter().enumerate() {
@@ -39,6 +46,18 @@ impl NameDrawing {
             buys_for: HashMap::new(),
         }
     }
+    pub fn new() -> NameDrawing {
+        NameDrawing {
+            name_key: HashMap::new(),
+            buys_for: HashMap::new(),
+        }
+    }
+
+    pub fn add_names(&mut self, name_vec: Vec<String>) {
+        let idx = self.name_key.len() as i32;
+        self.name_key.insert(idx, name_vec);
+    }
+
     fn full_name_list(&self) -> Vec<(i32, String)> {
         let mut full_name: Vec<(i32, String)> = Vec::new();
         for (key, value) in &self.name_key {
