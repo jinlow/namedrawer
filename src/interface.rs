@@ -1,5 +1,5 @@
 use crate::namedrawing;
-use std::io::{self, BufRead, Write};
+use std::io::{self, Write};
 
 fn print_directions() {
     println!("Name Drawing App!");
@@ -10,7 +10,7 @@ fn print_directions() {
     println!("to buy for eachother, enter them at the ");
     println!("same time seperated by a plus sign (+).");
     println!("Type draw_names() to draw names.");
-    // println!("Type restart to clear the drawing and start over.");
+    println!("Type restart() to clear the drawing and start over.");
     println!("Type quit() to end.");
 }
 
@@ -23,6 +23,10 @@ pub fn run_interactive() {
         let mut name = String::new();
         io::stdin().read_line(&mut name).expect("Input not read.");
         if name.trim() == "quit()" {
+            break;
+        }
+        if name.trim() == "restart()" {
+            run_interactive();
             break;
         }
         if name.trim() == "draw_names()" {

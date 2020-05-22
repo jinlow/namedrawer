@@ -5,7 +5,6 @@ use std::collections::HashMap;
 #[cfg(test)]
 mod test_namedrawing {
     use super::*;
-
     #[test]
     fn test_single_key_pass() {
         let mut mmap = HashMap::new();
@@ -35,22 +34,19 @@ pub struct NameDrawing {
 }
 
 impl NameDrawing {
-    pub fn from_vec(names: Vec<Vec<String>>) -> NameDrawing {
-        // Construct hashmap
-        let mut name_key = HashMap::new();
-        for (i, v) in names.iter().enumerate() {
-            name_key.insert(i as i32, v.to_vec());
-        }
-        NameDrawing {
-            name_key: name_key,
-            buys_for: HashMap::new(),
-        }
-    }
     pub fn new() -> NameDrawing {
         NameDrawing {
             name_key: HashMap::new(),
             buys_for: HashMap::new(),
         }
+    }
+    pub fn from_vec(names: Vec<Vec<String>>) -> NameDrawing {
+        // Construct hashmap
+        let mut namedrawing = NameDrawing::new();
+        for n in names {
+            namedrawing.add_names(n);
+        }
+        namedrawing
     }
 
     pub fn add_names(&mut self, name_vec: Vec<String>) {
@@ -73,6 +69,15 @@ impl NameDrawing {
         let mut nkc = self.name_key.clone();
         for (idx, name) in self.full_name_list() {
             let mut rkey = rnd_key(&nkc);
+            // There are times we can hit a corner case,
+            // where we end up that the only remaining
+            // indexes to choose from is the current names
+            // partner (or the name you don't want them to
+            // buy for). In such instances we can use
+            // recursion to start over, untill we reach
+            // an acceptable solution. Not sure if there is
+            // a more performant approach to this, but in such
+            // a small example, it doesn't matter?
             if all_keys_idx(idx, &nkc) {
                 self.draw_names();
                 return;
